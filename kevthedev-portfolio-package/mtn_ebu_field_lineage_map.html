@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MTN EBU · Opportunity-to-Cash · Field Lineage Map</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2236;
+    --border: #1e2d47;
+    --sfdc: #00C4FF;
+    --bom: #00E5A0;
+    --siebel: #FFD700;
+    --glide: #F472B6;
+    --wfm: #A78BFA;
+    --brm: #FF6B35;
+    --remedy: #fb923c;
+    --text: #e2e8f0;
+    --text-dim: #64748b;
+    --text-bright: #f8fafc;
+    --accent-yellow: #FFD700;
+    --accent-blue: #00C4FF;
+    --accent-green: #00E5A0;
+    --accent-orange: #FF6B35;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    padding: 24px 32px 0;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(0,196,255,0.04) 0%, transparent 60%);
+  }
+  .title-block h1 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-bright);
+    letter-spacing: -0.5px;
+  }
+  .title-block h1 span { color: var(--accent-yellow); }
+  .title-block p {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 4px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+  .legend {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 12px 0 0;
+    align-items: center;
+  }
+  .legend-label {
+    font-size: 10px;
+    color: var(--text-dim);
+    font-family: 'Space Mono', monospace;
+    margin-right: 4px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .legend-item:hover, .legend-item.active {
+    background: var(--surface2);
+    border-color: var(--border);
+    color: var(--text);
+  }
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .input-type-legend {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding: 8px 0 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 6px;
+    align-items: center;
+  }
+  .itype {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text-dim);
+    font-family: 'Space Mono', monospace;
+  }
+  .itype-badge {
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .badge-sys   { background: rgba(0,196,255,0.15); color: var(--sfdc); border: 1px solid rgba(0,196,255,0.3); }
+  .badge-user  { background: rgba(255,215,0,0.12); color: var(--accent-yellow); border: 1px solid rgba(255,215,0,0.25); }
+  .badge-derived { background: rgba(0,229,160,0.12); color: var(--bom); border: 1px solid rgba(0,229,160,0.25); }
+  .badge-manual  { background: rgba(255,107,53,0.12); color: var(--brm); border: 1px solid rgba(255,107,53,0.25); }
+
+  /* STATS */
+  .stats-bar {
+    display: flex;
+    gap: 24px;
+    padding: 12px 32px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+  .stat-val { font-size: 20px; font-weight: 800; color: var(--text-bright); }
+  .stat-label { font-size: 10px; font-family: 'Space Mono', monospace; color: var(--text-dim); letter-spacing: 0.5px; }
+
+  /* FILTERS */
+  .filters {
+    padding: 14px 32px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .filter-label { font-size: 11px; color: var(--text-dim); font-family: 'Space Mono', monospace; margin-right: 4px; }
+  .filter-btn {
+    padding: 5px 14px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--surface2);
+    color: var(--text);
+    border-color: var(--sfdc);
+  }
+  .search-box {
+    margin-left: auto;
+    padding: 5px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    width: 220px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-box:focus { border-color: var(--sfdc); }
+  .search-box::placeholder { color: var(--text-dim); }
+
+  /* TABLE */
+  .main { padding: 20px 32px; overflow-x: auto; }
+  .lineage-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1000px;
+  }
+  .lineage-table thead th {
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .sys-th {
+    text-align: center !important;
+    min-width: 90px;
+  }
+  .sys-th-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .sys-th-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  .lineage-table tbody tr.data-row {
+    border-bottom: 1px solid rgba(30,45,71,0.5);
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+  .lineage-table tbody tr.data-row:hover { background: var(--surface2); }
+  .lineage-table tbody tr.data-row.expanded { background: rgba(0,196,255,0.04); }
+
+  .section-header td {
+    padding: 8px 12px;
+    background: var(--surface);
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--accent-yellow);
+    border-bottom: 1px solid var(--border);
+    border-top: 2px solid rgba(255,215,0,0.15);
+  }
+
+  .field-name-cell {
+    padding: 12px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-bright);
+    white-space: nowrap;
+  }
+  .field-group-label {
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    color: var(--text-dim);
+    font-weight: 400;
+    display: block;
+    margin-top: 3px;
+  }
+  .input-col { padding: 12px 12px; }
+  .sys-cell { padding: 10px 8px; text-align: center; vertical-align: middle; }
+  .sys-present-wrap {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .sys-dot-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: block;
+  }
+  .sys-field-label {
+    font-size: 9px;
+    font-family: 'Space Mono', monospace;
+    color: var(--text-dim);
+    white-space: nowrap;
+    max-width: 78px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .role-badge {
+    font-size: 9px;
+    font-family: 'Space Mono', monospace;
+    padding: 1px 5px;
+    border-radius: 2px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    margin-top: 2px;
+    display: inline-block;
+  }
+  .role-origin { background: rgba(255,215,0,0.18); color: var(--accent-yellow); border: 1px solid rgba(255,215,0,0.3); }
+  .role-sync   { background: rgba(0,229,160,0.12); color: var(--bom); border: 1px solid rgba(0,229,160,0.2); }
+  .sys-absent-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: inline-block;
+    opacity: 0.25;
+  }
+
+  /* EXPAND ROW */
+  .expand-row td {
+    padding: 0;
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+  }
+  .expand-content {
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+  }
+  .expand-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px;
+  }
+  .expand-card h4 {
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .expand-card p { font-size: 12px; color: var(--text); line-height: 1.7; }
+  .flow-chain {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .flow-node {
+    padding: 3px 9px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+  }
+  .flow-arrow { color: var(--text-dim); font-size: 11px; }
+
+  .expand-toggle {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    line-height: 1;
+  }
+  .expand-toggle:hover { border-color: var(--sfdc); color: var(--sfdc); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="title-block">
+    <h1>MTN EBU &middot; <span>Opportunity-to-Cash</span> &middot; Field Lineage Map</h1>
+    <p>SYSTEM OF RECORD &bull; INPUT ORIGIN &bull; FLOW CHAIN &bull; USER vs SYSTEM GENERATED</p>
+  </div>
+  <div class="legend">
+    <span class="legend-label">FILTER BY SYSTEM:</span>
+    <div class="legend-item" data-sys="sfdc" onclick="toggleSys('sfdc',this)">
+      <span class="legend-dot" style="background:var(--sfdc)"></span>SFDC
+    </div>
+    <div class="legend-item" data-sys="bom" onclick="toggleSys('bom',this)">
+      <span class="legend-dot" style="background:var(--bom)"></span>BOM
+    </div>
+    <div class="legend-item" data-sys="siebel" onclick="toggleSys('siebel',this)">
+      <span class="legend-dot" style="background:var(--siebel)"></span>SIEBEL
+    </div>
+    <div class="legend-item" data-sys="glide" onclick="toggleSys('glide',this)">
+      <span class="legend-dot" style="background:var(--glide)"></span>GLIDE
+    </div>
+    <div class="legend-item" data-sys="wfm" onclick="toggleSys('wfm',this)">
+      <span class="legend-dot" style="background:var(--wfm)"></span>WFM
+    </div>
+    <div class="legend-item" data-sys="brm" onclick="toggleSys('brm',this)">
+      <span class="legend-dot" style="background:var(--brm)"></span>BRM
+    </div>
+  </div>
+  <div class="input-type-legend">
+    <div class="itype"><span class="itype-badge badge-sys">SYSTEM CALC</span> Auto-generated</div>
+    <div class="itype"><span class="itype-badge badge-user">USER INPUT</span> Manually entered</div>
+    <div class="itype"><span class="itype-badge badge-derived">DERIVED</span> Calculated from other fields</div>
+    <div class="itype"><span class="itype-badge badge-manual">FREE TEXT</span> Open entry / dropdown</div>
+    <div class="itype" style="margin-left:auto">
+      <span class="role-badge role-origin">ORIGIN</span> First system to own this field
+    </div>
+    <div class="itype">
+      <span class="role-badge role-sync">SYNC</span> Receives value from upstream
+    </div>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-val" id="statTotal">—</div><div class="stat-label">TOTAL FIELDS</div></div>
+  <div class="stat"><div class="stat-val" id="statSys">—</div><div class="stat-label">SYSTEM CALC</div></div>
+  <div class="stat"><div class="stat-val" id="statUser">—</div><div class="stat-label">USER INPUT</div></div>
+  <div class="stat"><div class="stat-val" id="statDerived">—</div><div class="stat-label">DERIVED</div></div>
+  <div class="stat"><div class="stat-val" id="statMulti">—</div><div class="stat-label">MULTI-SYSTEM</div></div>
+</div>
+
+<div class="filters">
+  <span class="filter-label">TYPE FILTER:</span>
+  <button class="filter-btn active" onclick="setFilter('all',this)">ALL</button>
+  <button class="filter-btn" onclick="setFilter('SYSTEM CALC',this)">SYSTEM CALC</button>
+  <button class="filter-btn" onclick="setFilter('USER',this)">USER INPUT</button>
+  <button class="filter-btn" onclick="setFilter('DERIVED',this)">DERIVED</button>
+  <button class="filter-btn" onclick="setFilter('multi',this)">MULTI-SYSTEM</button>
+  <input class="search-box" type="text" placeholder="Search field names..." oninput="doSearch(this.value)" />
+</div>
+
+<div class="main">
+  <table class="lineage-table">
+    <thead>
+      <tr>
+        <th style="width:180px">FIELD NAME</th>
+        <th style="width:90px">INPUT BY</th>
+        <th style="width:130px">INPUT TYPE</th>
+        <th class="sys-th"><div class="sys-th-inner"><div class="sys-th-dot" style="background:var(--sfdc)"></div>SFDC</div></th>
+        <th class="sys-th"><div class="sys-th-inner"><div class="sys-th-dot" style="background:var(--bom)"></div>BOM</div></th>
+        <th class="sys-th"><div class="sys-th-inner"><div class="sys-th-dot" style="background:var(--siebel)"></div>SIEBEL</div></th>
+        <th class="sys-th"><div class="sys-th-inner"><div class="sys-th-dot" style="background:var(--glide)"></div>GLIDE</div></th>
+        <th class="sys-th"><div class="sys-th-inner"><div class="sys-th-dot" style="background:var(--wfm)"></div>WFM</div></th>
+        <th class="sys-th"><div class="sys-th-inner"><div class="sys-th-dot" style="background:var(--brm)"></div>BRM</div></th>
+        <th style="width:40px"></th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+</div>
+
+<script>
+const SYS_LIST = ['sfdc','bom','siebel','glide','wfm','brm'];
+const SYS_COLORS = {sfdc:'#00C4FF',bom:'#00E5A0',siebel:'#FFD700',glide:'#F472B6',wfm:'#A78BFA',brm:'#FF6B35'};
+const TYPE_MAP = {
+  'SYSTEM CALC':'badge-sys','USER':'badge-user',
+  'DERIVED':'badge-derived','FREE TEXT':'badge-manual',
+  'FREE TEXT / DROPDOWN':'badge-manual','DROPDOWN':'badge-manual'
+};
+
+const FIELD_DATA = [
+  {
+    section:'OPPORTUNITY STAGE',
+    fields:[
+      {
+        name:'OPPORTUNITY #', group:'SFDC → BOM / SIEBEL',
+        by:'SYSTEM', type:'SYSTEM CALC',
+        systems:{
+          sfdc:{present:true,field:'OPP_ID',role:'ORIGIN'},
+          bom:{present:true,field:'OPPORTUNITY #',role:'SYNC'},
+          siebel:{present:true,field:'OPPORTUNITY #',role:'SYNC'},
+          glide:{present:false},wfm:{present:false},brm:{present:false}
+        },
+        desc:'Auto-generated unique identifier created by SFDC at opportunity creation. Acts as the foreign key reference that correlates the deal across BOM and Siebel throughout the order lifecycle.',
+        flow:['SFDC','→','BOM','→','SIEBEL'],
+        notes:'SFDC is the system of record. Downstream systems receive this via integration and must never manually override it.',
+        risk:'If SFDC creates duplicate opportunities, downstream systems inherit conflicting IDs — causing reconciliation failures across the entire deal.'
+      },
+      {
+        name:'CUSTOMER NAME', group:'SFDC / BOM / SIEBEL',
+        by:'USER', type:'FREE TEXT / DROPDOWN',
+        systems:{
+          sfdc:{present:true,field:'ACCOUNT_NAME',role:'ORIGIN'},
+          bom:{present:true,field:'CUSTOMER NAME',role:'SYNC'},
+          siebel:{present:true,field:'CUSTOMER NAME',role:'SYNC'},
+          glide:{present:false},wfm:{present:false},brm:{present:false}
+        },
+        desc:'Entered by the sales rep in SFDC at opportunity creation. Propagates to BOM and Siebel. The critical open question is whether BOM accepts free text or validates against a master account list.',
+        flow:['SFDC (USER ENTRY)','→','BOM','→','SIEBEL'],
+        notes:'⚠ OPEN QUESTION: Is this a dropdown against a master account list, or free text? The answer determines your data quality risk profile.',
+        risk:'Name variations between systems (e.g. "MTN SA" vs "MTN South Africa") cause reconciliation mismatches. Enforce validation at SFDC entry point.'
+      },
+      {
+        name:'ACCOUNT NUMBER', group:'SFDC / BOM / SIEBEL',
+        by:'USER', type:'FREE TEXT / DROPDOWN',
+        systems:{
+          sfdc:{present:true,field:'ACCOUNT_NUMBER',role:'ORIGIN'},
+          bom:{present:true,field:'ACCOUNT NUMBER',role:'SYNC'},
+          siebel:{present:true,field:'ACCOUNT NUMBER',role:'SYNC'},
+          glide:{present:false},wfm:{present:false},brm:{present:false}
+        },
+        desc:'Account identifier flowing from SFDC into BOM and Siebel. Critical to confirm whether this is the SFDC internal account ID or the MTN billing account number — these may be different.',
+        flow:['SFDC','→','BOM','→','SIEBEL'],
+        notes:'⚠ OPEN QUESTION: Free text or dropdown? If dropdown, a master account table must remain in sync across all three systems.',
+        risk:'If SFDC account number ≠ BRM billing account number, revenue will fail to join across systems in reporting queries.'
+      },
+      {
+        name:'OPPTY VALUE', group:'SFDC Calculated',
+        by:'SYSTEM', type:'SYSTEM CALC',
+        systems:{
+          sfdc:{present:true,field:'OPPTY_VALUE',role:'ORIGIN'},
+          bom:{present:false},siebel:{present:false},
+          glide:{present:false},wfm:{present:false},brm:{present:false}
+        },
+        desc:'Calculated estimate of deal value by SFDC based on product configuration and pricing. Represents TCV or MRC estimate at the opportunity stage before BOM commercial confirmation.',
+        flow:['SFDC (CALC ONLY)'],
+        notes:'This is a pipeline metric — it does not flow downstream because it is an estimate, not a confirmed commercial value.',
+        risk:'Forecast accuracy depends entirely on how accurately reps configure the deal in SFDC. No downstream validation catches errors at this stage.'
+      }
+    ]
+  },
+  {
+    section:'ORDER STAGE',
+    fields:[
+      {
+        name:'ORDER #', group:'SIEBEL → WFM',
+        by:'SYSTEM', type:'SYSTEM CALC',
+        systems:{
+          sfdc:{present:false},bom:{present:false},
+          siebel:{present:true,field:'ORDER #',role:'ORIGIN'},
+          glide:{present:false},
+          wfm:{present:true,field:'ORDER REF',role:'SYNC'},
+          brm:{present:false}
+        },
+        desc:'Generated by Siebel when an accepted opportunity is converted to an order. Acts as the primary reference for provisioning trigger in WFM.',
+        flow:['SFDC OPP','→','SIEBEL ORDER (GEN)','→','WFM (TRIGGER)'],
+        notes:'WFM receives the order number to initiate provisioning workflows. Confirm exact field name in WFM (may be ORDER_REF or similar).',
+        risk:'If the SFDC → Siebel integration fails, no order is generated, WFM is not triggered, and the service is never provisioned — with no automatic alert.'
+      },
+      {
+        name:'SR #', group:'SIEBEL CRM',
+        by:'SYSTEM', type:'SYSTEM CALC',
+        systems:{
+          sfdc:{present:false},bom:{present:false},
+          siebel:{present:true,field:'SR #',role:'ORIGIN'},
+          glide:{present:false},wfm:{present:false},brm:{present:false}
+        },
+        desc:'Service Request number generated by Siebel for provisioning and fault tracking. Bridges the commercial order lifecycle into the ITSM and operational workflow domain.',
+        flow:['SIEBEL (SYSTEM GEN)'],
+        notes:'Key field in the SR reconciliation pipeline processing ~520K rows. Unique resolution is critical.',
+        risk:'Duplicate SRs cause double-counting in revenue reconciliation and MRC calculations. SR deduplication logic must be validated in each pipeline run.'
+      },
+      {
+        name:'iMRR', group:'SIEBEL → GLIDE',
+        by:'SYSTEM', type:'DERIVED',
+        systems:{
+          sfdc:{present:false},bom:{present:false},
+          siebel:{present:true,field:'IMRR',role:'ORIGIN'},
+          glide:{present:true,field:'IMRR',role:'SYNC'},
+          wfm:{present:false},brm:{present:false}
+        },
+        desc:'Incremental Monthly Recurring Revenue — the net new MRC added in a period. Derived from the difference between new billing activations and churn. Siebel holds the source calculation; GLIDE classifies it as SYSTEM GEN.',
+        flow:['NEW MRC (BRM)','−','CHURN MRC (BRM)','→','SIEBEL (CALC)','→','GLIDE'],
+        notes:'Critical EBU forecasting metric. Must reconcile to BRM actuals at month-end. GLIDE receives this as a system-generated value.',
+        risk:'iMRR calculation depends entirely on correct FLOWNAME classification. A miscategorised FLOWNAME corrupts the iMRR segment split, producing wrong LE/PE/SME reporting.'
+      }
+    ]
+  },
+  {
+    section:'BILLING & PROVISIONING',
+    fields:[
+      {
+        name:'MRC', group:'BRM → SIEBEL',
+        by:'SYSTEM', type:'SYSTEM CALC',
+        systems:{
+          sfdc:{present:false},bom:{present:false},
+          siebel:{present:true,field:'MRC',role:'SYNC'},
+          glide:{present:false},wfm:{present:false},
+          brm:{present:true,field:'MRC_AMOUNT',role:'ORIGIN'}
+        },
+        desc:'Monthly Recurring Charge — the fundamental revenue line item. BRM is the billing system of record. Siebel receives confirmed MRC post-activation for CRM visibility and reporting.',
+        flow:['BOM (CONFIGURED)','→','WFM (ACTIVATED)','→','BRM (BILLED)','→','SIEBEL (UPDATED)'],
+        notes:'The MRC in SFDC/BOM is always an estimate. The MRC in BRM is the billing truth. Reconciliation between Siebel and BRM MRC is the core of monthly revenue reporting.',
+        risk:'Timing mismatches between WFM activation date and BRM billing start date create MRC variance within the same period — common during month-end activations.'
+      },
+      {
+        name:'NRC', group:'BOM → BRM / SIEBEL',
+        by:'SYSTEM', type:'SYSTEM CALC',
+        systems:{
+          sfdc:{present:false},
+          bom:{present:true,field:'NRC',role:'ORIGIN'},
+          siebel:{present:true,field:'NRC',role:'SYNC'},
+          glide:{present:false},wfm:{present:false},
+          brm:{present:true,field:'NRC_AMOUNT',role:'SYNC'}
+        },
+        desc:'Non-Recurring Charge — once-off setup or activation fee. Configured in BOM as part of the product quote and flows to BRM for billing. Should appear exactly once per order.',
+        flow:['BOM (CONFIG)','→','BRM (BILLED)','→','SIEBEL (VISIBILITY)'],
+        notes:'NRC is time-critical. Confirm: is BOM the true origin or does the value originate from a product catalogue upstream?',
+        risk:'Multi-phase orders risk duplicate NRC billing if each phase is processed as a separate order. NRC waivers negotiated at SFDC must propagate to BRM — gaps cause billing disputes.'
+      },
+      {
+        name:'ACTIVATION DATE', group:'WFM → BRM / SIEBEL',
+        by:'SYSTEM', type:'SYSTEM CALC',
+        systems:{
+          sfdc:{present:false},bom:{present:false},
+          siebel:{present:true,field:'ACTIVATION_DATE',role:'SYNC'},
+          glide:{present:false},
+          wfm:{present:true,field:'ACTIVATION_DATE',role:'ORIGIN'},
+          brm:{present:true,field:'BILLING_START_DATE',role:'SYNC'}
+        },
+        desc:'Date a service is activated by WFM provisioning. This event triggers billing commencement in BRM and service status update in Siebel.',
+        flow:['WFM (PROVISIONED)','→','BRM (BILLING START)','→','SIEBEL (STATUS UPDATE)'],
+        notes:'In BRM this may be stored as BILLING_START_DATE — not ACTIVATION_DATE. Always TRUNC() this field in SQL period comparisons.',
+        risk:'Retroactive activations (backdating) cause BRM to backdate billing, distorting period-end MRC figures. Requires special handling in reconciliation queries.'
+      },
+      {
+        name:'FLOWNAME', group:'SIEBEL Derived',
+        by:'SYSTEM', type:'DERIVED',
+        systems:{
+          sfdc:{present:false},bom:{present:false},
+          siebel:{present:true,field:'FLOWNAME',role:'ORIGIN'},
+          glide:{present:false},wfm:{present:false},brm:{present:false}
+        },
+        desc:'Derived classification field in Siebel that routes revenue flows for reporting. Distinguishes MCS from TFLS accounts and drives all segment-level revenue aggregation.',
+        flow:['SEGMENT CODE','+','PRODUCT TYPE','→','SIEBEL DERIVES FLOWNAME'],
+        notes:'Always UPPER(TRIM()) normalise before any comparison or join. Standardisation alignment ongoing with Dirk. Validate against TES.EBU_SEGMENT before aggregation.',
+        risk:'Zero tolerance for unnormalised FLOWNAME in production. Null or inconsistently formatted values break waterfall calculations and iMRR segment splits entirely.'
+      },
+      {
+        name:'SEGMENT CODE', group:'SFDC → SIEBEL',
+        by:'USER', type:'DROPDOWN',
+        systems:{
+          sfdc:{present:true,field:'SEGMENT',role:'ORIGIN'},
+          bom:{present:false},
+          siebel:{present:true,field:'SEGMENT_CODE',role:'SYNC'},
+          glide:{present:false},wfm:{present:false},brm:{present:false}
+        },
+        desc:'Classifies the account into LE, PE, SME, MCS, or Partnerships. Entered by sales in SFDC via dropdown and propagates to Siebel. Feeds FLOWNAME derivation and drives all segment-level revenue reporting.',
+        flow:['SFDC (USER SELECTS)','→','SIEBEL','→','FLOWNAME DERIVATION','→','REPORTING'],
+        notes:'Source of truth for EBU segment splits. Must match TES.EBU_SEGMENT reference table exactly.',
+        risk:'Wrong segment code at SFDC entry propagates all the way through to BRM billing classification and financial segment reporting. A single wrong entry contaminates all downstream metrics.'
+      }
+    ]
+  },
+  {
+    section:'REPORTING & CALCULATED METRICS',
+    fields:[
+      {
+        name:'RUN RATE', group:'Calculated / TES Schema',
+        by:'SYSTEM', type:'DERIVED',
+        systems:{
+          sfdc:{present:false},bom:{present:false},
+          siebel:{present:true,field:'MRC × 12 (CALC)',role:'ORIGIN'},
+          glide:{present:false},wfm:{present:false},brm:{present:false}
+        },
+        desc:'Annualised view of current MRC base. Derived as MRC × 12 within TES reporting queries. Not stored as a native field in any source system — always calculated at query time from BRM MRC.',
+        flow:['BRM MRC','→','TES QUERY (× 12)','→','POWER BI'],
+        notes:'Run Rate is a reporting construct only. Never join on Run Rate — always derive from source MRC in queries.',
+        risk:'Partial-month activations distort Run Rate if MRC is not prorated. Confirm billing proration rules with BRM team before including in month-in-progress reporting.'
+      },
+      {
+        name:'OOC FLAG', group:'SIEBEL Derived',
+        by:'SYSTEM', type:'DERIVED',
+        systems:{
+          sfdc:{present:false},bom:{present:false},
+          siebel:{present:true,field:'OOC_FLAG',role:'ORIGIN'},
+          glide:{present:false},wfm:{present:false},brm:{present:false}
+        },
+        desc:'Out-of-Contract flag. Derived from contract end date vs current date in Siebel. Identifies services past their contract term — primary churn risk indicator for EBU portfolio management.',
+        flow:['CONTRACT_END_DATE','<','SYSDATE','→','SIEBEL DERIVES OOC_FLAG'],
+        notes:'OOC services are tracked in RevenueFlow platform. Requires TRUNC(SYSDATE) comparison in TES queries.',
+        risk:'If contract end dates are not maintained in Siebel, OOC flag will under-report churn exposure. Data maintenance discipline is the key control.'
+      }
+    ]
+  }
+];
+
+let activeFilter = 'all';
+let searchTerm = '';
+let activeSysFilt = new Set();
+let expanded = new Set();
+
+function badge(type) {
+  const cls = TYPE_MAP[type] || 'badge-manual';
+  return `<span class="itype-badge ${cls}">${type}</span>`;
+}
+
+function sysCell(sys, s) {
+  if (!s.present) return `<td class="sys-cell"><span class="sys-absent-dot"></span></td>`;
+  const c = SYS_COLORS[sys];
+  return `<td class="sys-cell"><div class="sys-present-wrap">
+    <span class="sys-dot-indicator" style="background:${c};box-shadow:0 0 6px ${c}55"></span>
+    <span class="sys-field-label" title="${s.field}">${s.field}</span>
+    <span class="role-badge ${s.role==='ORIGIN'?'role-origin':'role-sync'}">${s.role}</span>
+  </div></td>`;
+}
+
+function flowHtml(arr) {
+  const colors = Object.values(SYS_COLORS);
+  let ci = 0;
+  return arr.map(n => {
+    if (n === '→' || n === '−') return `<span class="flow-arrow">${n}</span>`;
+    const c = colors[ci++ % colors.length];
+    return `<span class="flow-node" style="background:${c}22;color:${c};border:1px solid ${c}44">${n}</span>`;
+  }).join('');
+}
+
+function render() {
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = '';
+  let tot=0, sys=0, usr=0, drv=0, multi=0;
+
+  FIELD_DATA.forEach(sec => {
+    const srow = document.createElement('tr');
+    srow.className = 'section-header';
+    srow.innerHTML = `<td colspan="10">${sec.section}</td>`;
+    tbody.appendChild(srow);
+
+    let sectionHasVisible = false;
+
+    sec.fields.forEach((f, fi) => {
+      const id = sec.section + '_' + fi;
+      let show = true;
+
+      if (searchTerm) {
+        const hay = (f.name + f.group + SYS_LIST.map(s=>f.systems[s].field||'').join(' ')).toLowerCase();
+        if (!hay.includes(searchTerm.toLowerCase())) show = false;
+      }
+      if (activeFilter === 'SYSTEM CALC' && f.type !== 'SYSTEM CALC') show = false;
+      if (activeFilter === 'USER' && f.by !== 'USER') show = false;
+      if (activeFilter === 'DERIVED' && f.type !== 'DERIVED') show = false;
+      const cnt = SYS_LIST.filter(s=>f.systems[s].present).length;
+      if (activeFilter === 'multi' && cnt < 2) show = false;
+      if (activeSysFilt.size > 0) {
+        if (![...activeSysFilt].some(s=>f.systems[s]&&f.systems[s].present)) show = false;
+      }
+
+      if (!show) return;
+
+      sectionHasVisible = true;
+      tot++; if(f.type==='SYSTEM CALC')sys++; if(f.by==='USER')usr++; if(f.type==='DERIVED')drv++; if(cnt>=2)multi++;
+
+      const isExp = expanded.has(id);
+
+      const row = document.createElement('tr');
+      row.className = 'data-row' + (isExp ? ' expanded' : '');
+      row.setAttribute('data-id', id);
+      row.onclick = () => toggleExp(id);
+
+      row.innerHTML = `
+        <td class="field-name-cell">${f.name}<span class="field-group-label">${f.group}</span></td>
+        <td class="input-col"><span style="font-size:11px;font-family:'Space Mono',monospace;color:var(--text-dim)">${f.by}</span></td>
+        <td class="input-col">${badge(f.type)}</td>
+        ${SYS_LIST.map(s=>sysCell(s,f.systems[s])).join('')}
+        <td style="text-align:center;padding:8px"><button class="expand-toggle" onclick="event.stopPropagation();toggleExp('${id}')">${isExp?'−':'+'}</button></td>
+      `;
+      tbody.appendChild(row);
+
+      const erow = document.createElement('tr');
+      erow.className = 'expand-row';
+      erow.id = 'exp_' + id.replace(/ /g,'_');
+      if (!isExp) erow.style.display = 'none';
+      erow.innerHTML = `<td colspan="10"><div class="expand-content">
+        <div class="expand-card">
+          <h4>FIELD DESCRIPTION</h4>
+          <p>${f.desc}</p>
+        </div>
+        <div class="expand-card">
+          <h4>DATA FLOW CHAIN</h4>
+          <div class="flow-chain">${flowHtml(f.flow)}</div>
+          <p style="margin-top:10px;font-size:11px;color:var(--text-dim);line-height:1.6">${f.notes}</p>
+        </div>
+        <div class="expand-card" style="border-color:rgba(255,107,53,0.35)">
+          <h4 style="color:var(--brm)">⚠ RISK / OPEN QUESTIONS</h4>
+          <p style="color:#fdba74;font-size:12px;line-height:1.7">${f.risk}</p>
+        </div>
+      </div></td>`;
+      tbody.appendChild(erow);
+    });
+
+    // hide section header if nothing visible
+    if (!sectionHasVisible) srow.style.display = 'none';
+  });
+
+  document.getElementById('statTotal').textContent = tot;
+  document.getElementById('statSys').textContent = sys;
+  document.getElementById('statUser').textContent = usr;
+  document.getElementById('statDerived').textContent = drv;
+  document.getElementById('statMulti').textContent = multi;
+}
+
+function toggleExp(id) {
+  const eid = 'exp_' + id.replace(/ /g,'_');
+  const erow = document.getElementById(eid);
+  if (expanded.has(id)) {
+    expanded.delete(id);
+    if (erow) erow.style.display = 'none';
+  } else {
+    expanded.add(id);
+    if (erow) erow.style.display = '';
+  }
+  render();
+}
+
+function setFilter(val, btn) {
+  activeFilter = val;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function doSearch(val) { searchTerm = val; render(); }
+
+function toggleSys(sys, el) {
+  if (activeSysFilt.has(sys)) { activeSysFilt.delete(sys); el.classList.remove('active'); }
+  else { activeSysFilt.add(sys); el.classList.add('active'); }
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
