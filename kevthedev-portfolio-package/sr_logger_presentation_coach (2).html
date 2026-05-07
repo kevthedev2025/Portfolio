@@ -1,0 +1,356 @@
+
+<!-- saved from url=(0072)file:///C:/Users/Kevin/Downloads/sr_logger_presentation_coach%20(2).html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body><h2 class="sr-only">SR Logger presentation coach — structure, talking points, Q&amp;A prep, and practice mode</h2>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-size:15px;line-height:1.6}
+.tabs{display:flex;gap:6px;padding:1rem 0 0;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:1.5rem;flex-wrap:wrap}
+.tab{padding:7px 16px;border-radius:var(--border-radius-md) var(--border-radius-md) 0 0;border:0.5px solid transparent;font-size:13px;font-weight:500;cursor:pointer;color:var(--color-text-secondary);background:transparent;transition:all .15s}
+.tab.active{background:var(--color-background-primary);border-color:var(--color-border-tertiary);border-bottom-color:var(--color-background-primary);color:var(--color-text-primary);margin-bottom:-1px}
+.tab:hover:not(.active){background:var(--color-background-secondary);color:var(--color-text-primary)}
+.panel{display:none}.panel.active{display:block}
+
+.beat{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:12px;overflow:hidden}
+.beat-head{display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;background:var(--color-background-secondary)}
+.beat-head:hover{background:var(--color-background-tertiary)}
+.beat-num{width:28px;height:28px;border-radius:50%;background:#FFCC00;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#1A1A1A;flex-shrink:0}
+.beat-title{font-weight:500;font-size:14px;flex:1;color:var(--color-text-primary)}
+.beat-time{font-size:12px;color:var(--color-text-secondary);margin-left:auto}
+.beat-body{padding:14px 16px;display:none;border-top:0.5px solid var(--color-border-tertiary)}
+.beat-body.open{display:block}
+.line{font-size:13.5px;color:var(--color-text-primary);margin-bottom:8px;padding-left:14px;border-left:2px solid #FFCC00;line-height:1.55}
+.tip{font-size:12px;color:var(--color-text-secondary);margin-top:10px;padding:8px 12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md)}
+
+.qa-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:12px;overflow:hidden}
+.qa-q{padding:12px 16px;font-weight:500;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--color-background-secondary);color:var(--color-text-primary)}
+.qa-q:hover{background:var(--color-background-tertiary)}
+.qa-badge{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500;flex-shrink:0}
+.hard{background:#FDECEA;color:#A32D2D}.med{background:#FFF8E6;color:#854F0B}.soft{background:#EAF3DE;color:#3B6D11}
+.qa-a{display:none;padding:14px 16px;border-top:0.5px solid var(--color-border-tertiary);font-size:13.5px;line-height:1.6;color:var(--color-text-primary)}
+.qa-a.open{display:block}
+.qa-a strong{color:var(--color-text-primary);font-weight:500}
+
+.do-dont{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem}
+.do-card,.dont-card{border-radius:var(--border-radius-lg);padding:14px 16px}
+.do-card{background:#EAF3DE;border:0.5px solid #C0DD97}
+.dont-card{background:#FDECEA;border:0.5px solid #F7C1C1}
+.do-card h4{color:#27500A;font-size:13px;font-weight:500;margin-bottom:10px}
+.dont-card h4{color:#791F1F;font-size:13px;font-weight:500;margin-bottom:10px}
+.do-card li,.dont-card li{font-size:13px;margin-bottom:6px;list-style:none;padding-left:14px;position:relative;line-height:1.45}
+.do-card li::before{content:"✓";position:absolute;left:0;color:#27500A;font-weight:500}
+.dont-card li::before{content:"✗";position:absolute;left:0;color:#791F1F;font-weight:500}
+
+.practice-wrap{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden}
+.practice-q{padding:16px;background:var(--color-background-secondary)}
+.practice-q p{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.practice-q span{font-size:12px;color:var(--color-text-secondary)}
+.practice-body{padding:16px}
+textarea{width:100%;min-height:100px;padding:10px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:13.5px;line-height:1.55;resize:vertical;background:var(--color-background-primary);color:var(--color-text-primary);font-family:inherit}
+textarea:focus{outline:none;border-color:var(--color-border-primary)}
+.btn-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+button{padding:7px 16px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;font-size:13px;font-weight:500;cursor:pointer;color:var(--color-text-primary)}
+button:hover{background:var(--color-background-secondary)}
+button.primary{background:#FFCC00;border-color:#FFCC00;color:#1A1A1A}
+button.primary:hover{background:#e6b800;border-color:#e6b800}
+.model-ans{margin-top:14px;padding:12px 14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);border-left:3px solid #FFCC00;font-size:13.5px;line-height:1.6;display:none;color:var(--color-text-primary)}
+.model-ans.show{display:block}
+.nav-row{display:flex;justify-content:space-between;margin-top:12px;align-items:center}
+.prog{font-size:12px;color:var(--color-text-secondary)}
+
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:1rem 0 1.5rem}
+.stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px}
+.stat-l{font-size:11px;color:var(--color-text-secondary);margin-bottom:3px}
+.stat-v{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+.stat-s{font-size:11px;color:var(--color-text-secondary)}
+
+.opener{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:16px;margin-bottom:1.5rem;border-left:3px solid #FFCC00}
+.opener p{font-size:14px;line-height:1.65;color:var(--color-text-primary);font-style:italic}
+.opener span{font-size:12px;color:var(--color-text-secondary);display:block;margin-top:8px}
+</style>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab(&#39;structure&#39;)">Talk track</button>
+  <button class="tab" onclick="switchTab(&#39;qa&#39;)">Q&amp;A prep</button>
+  <button class="tab" onclick="switchTab(&#39;dodont&#39;)">Dos &amp; don'ts</button>
+  <button class="tab" onclick="switchTab(&#39;practice&#39;)">Practice mode</button>
+</div>
+
+<div id="structure" class="panel active">
+
+  <div class="opener">
+    <p>"Every day, my team manually types 6 to 15 service requests from emails into a spreadsheet — 15 minutes each. That's up to 3 hours of skilled consultant time, every single day, on copy-paste. I've built an automation that eliminates that entirely. That's what I'm here to show you."</p>
+    <span>Your opening — say exactly this. It lands the pain before you explain anything.</span>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-l">Your time slot</div><div class="stat-v">~10 min</div><div class="stat-s">Aim for 8, leave 2 for Q&amp;A</div></div>
+    <div class="stat"><div class="stat-l">Slides / pages</div><div class="stat-v">1 canvas</div><div class="stat-s">UC canvas + flow diagram</div></div>
+    <div class="stat"><div class="stat-l">Key number to land</div><div class="stat-v">30–77 hrs</div><div class="stat-s">Monthly hours saved</div></div>
+    <div class="stat"><div class="stat-l">Decision you need</div><div class="stat-v">DLP approval</div><div class="stat-s">From Donovan / M365 admin</div></div>
+  </div>
+
+  <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:12px">Click each beat to expand your talking points.</p>
+
+  <div class="beat">
+    <div class="beat-head" onclick="toggleBeat(this)">
+      <div class="beat-num">1</div>
+      <div class="beat-title">The problem — make them feel it</div>
+      <div class="beat-time">~2 min</div>
+    </div>
+    <div class="beat-body open">
+      <div class="line">Right now, every SR that comes into ICT COM Support mailbox gets manually processed — the consultant reads the email, finds the SR number in the subject line, opens the BOM PDF, and types 14 fields into the BPI Workbook on SharePoint. By hand.</div>
+      <div class="line">That's 15 minutes per SR. On a busy day — up to 15 SRs. That's three and a half hours of a skilled consultant's day, gone.</div>
+      <div class="line">And there's no duplicate check, no scheduling — if a reply email comes in, it could get logged twice. We're one mis-click away from a corrupted SR_Master.</div>
+      <div class="tip">💡 Pause after the "three and a half hours" line. Let it sink in. Don't rush to the solution yet.</div>
+    </div>
+  </div>
+
+  <div class="beat">
+    <div class="beat-head" onclick="toggleBeat(this)">
+      <div class="beat-num">2</div>
+      <div class="beat-title">The solution — what it does, simply</div>
+      <div class="beat-time">~2 min</div>
+    </div>
+    <div class="beat-body open">
+      <div class="line">SR Logger is a Power Automate flow that runs every 15 minutes. It scans the mailbox, ignores any replies or forwards, finds the new SRs, opens the BOM attachment, extracts all 14 fields using AI Builder, and writes them directly into SR_Master — automatically.</div>
+      <div class="line">No consultant touches it. By the time they get to work in the morning, the overnight SRs are already logged.</div>
+      <div class="line">If anything goes wrong — wrong format, confidence too low — it sends an alert. Nothing falls through silently.</div>
+      <div class="tip">💡 Point to the flow diagram when you describe the steps. Walk left to right — START, check the subject, branch the decision, extract, write, loop. Don't read every node, just narrate the journey.</div>
+    </div>
+  </div>
+
+  <div class="beat">
+    <div class="beat-head" onclick="toggleBeat(this)">
+      <div class="beat-num">3</div>
+      <div class="beat-title">The numbers — make the ROI stick</div>
+      <div class="beat-time">~1 min</div>
+    </div>
+    <div class="beat-body open">
+      <div class="line">Conservative estimate: 30 consultant hours freed per month. Optimistic: 77. Either way, that's time that goes straight back into the backlog — the work that actually needs human judgment.</div>
+      <div class="line">This is MVP 1. It only does logging. Once it's stable, MVP 2 adds pre-screening and allocation — but I'm not asking for that today. Just logging, just this system.</div>
+      <div class="tip">💡 Say "I'm not asking for MVP 2 today" — it shows discipline and makes the ask feel small and safe.</div>
+    </div>
+  </div>
+
+  <div class="beat">
+    <div class="beat-head" onclick="toggleBeat(this)">
+      <div class="beat-num">4</div>
+      <div class="beat-title">The ask — be specific</div>
+      <div class="beat-time">~1 min</div>
+    </div>
+    <div class="beat-body open">
+      <div class="line">Everything I need exists in our current O365 stack — Power Automate, AI Builder, SharePoint. No new tools, no new spend.</div>
+      <div class="line">The one thing blocking me is a DLP policy that restricts the Power Automate connector to the shared mailbox. I need that allowlisted. That's the decision I'm asking Donovan to support today.</div>
+      <div class="line">Once that's done, I have a 6-week delivery plan — environment setup, flow build, AI Builder training, UAT, go-live.</div>
+      <div class="tip">💡 Name Donovan directly and look at him when you say it. You're not asking the room — you're asking one person for one specific thing.</div>
+    </div>
+  </div>
+
+  <div class="beat">
+    <div class="beat-head" onclick="toggleBeat(this)">
+      <div class="beat-num">5</div>
+      <div class="beat-title">The close — confidence, not begging</div>
+      <div class="beat-time">~30 sec</div>
+    </div>
+    <div class="beat-body">
+      <div class="line">This is low risk, high return, and it uses tools we already pay for. I've done the feasibility work, I've mapped the fields, I've built the flow diagram. I'm ready to build it — I just need the DLP unblocked.</div>
+      <div class="line">Happy to take any questions.</div>
+      <div class="tip">💡 Stop talking after "Happy to take any questions." Don't add more. Silence is fine. The close lands harder when you don't dilute it.</div>
+    </div>
+  </div>
+</div>
+
+<div id="qa" class="panel">
+  <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:14px">Click a question to see how to answer it. Sorted by how likely it is to come up.</p>
+
+  <div class="qa-card">
+    <div class="qa-q" onclick="toggleQA(this)">
+      What if AI Builder reads the BOM wrong?
+      <span class="qa-badge hard">Hard</span>
+    </div>
+    <div class="qa-a">
+      <strong>Don't panic — you've thought of this.</strong><br><br>
+      "AI Builder gives us a confidence score on every extraction. I'll set a threshold — anything below that score triggers an alert to the consultant to manually check that SR. So worst case, we're back to manual for that one SR. Nothing falls through silently, and we never write bad data to SR_Master automatically."
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="qa-q" onclick="toggleQA(this)">
+      What happens to the fails — SRs that don't pass pre-screening?
+      <span class="qa-badge hard">Hard</span>
+    </div>
+    <div class="qa-a">
+      <strong>This is intentionally out of scope — own it confidently.</strong><br><br>
+      "MVP 1 only handles SRs that have already passed pre-screening — same as today. The consultant still does pre-screening manually. I've scoped it this way deliberately so we can deliver value fast and prove the concept before expanding. Pre-screening is MVP 2."
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="qa-q" onclick="toggleQA(this)">
+      Why can't you just use a macro or a script instead?
+      <span class="qa-badge hard">Hard</span>
+    </div>
+    <div class="qa-a">
+      <strong>Acknowledge it, then explain why Power Automate is the right call here.</strong><br><br>
+      "A script could do the mailbox scanning, but it can't read a PDF and extract structured fields without significant custom development — and it would need a machine to be running continuously. Power Automate with AI Builder is purpose-built for exactly this pattern, it's hosted in our O365 tenant, it's auditable, and it's maintainable by the team without a developer."
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="qa-q" onclick="toggleQA(this)">
+      How long will it take to build?
+      <span class="qa-badge med">Medium</span>
+    </div>
+    <div class="qa-a">
+      "Six weeks from DLP approval to go-live. Two weeks setup, two weeks flow build and AI Builder training, two weeks UAT and parallel-run against the manual process. Ismut signs off at the end."
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="qa-q" onclick="toggleQA(this)">
+      What's the cost?
+      <span class="qa-badge med">Medium</span>
+    </div>
+    <div class="qa-a">
+      "No additional spend. Power Automate and AI Builder are already part of our O365 licensing. The only cost is my time to build it — which I'm already doing as part of my role."
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="qa-q" onclick="toggleQA(this)">
+      What if the email format or BOM template changes?
+      <span class="qa-badge med">Medium</span>
+    </div>
+    <div class="qa-a">
+      "The flow uses the SR number pattern from the subject line — that's been consistent. The AI Builder model is trained on our actual BOM template. If the template changes significantly, I'd need to retrain the model — that's a known maintenance task, same as updating a manual process guide. I'd flag it as a change management item."
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="qa-q" onclick="toggleQA(this)">
+      How do we know it logged everything correctly?
+      <span class="qa-badge soft">Easy</span>
+    </div>
+    <div class="qa-a">
+      "During UAT I'll run it in parallel with the manual process for two weeks — every automated log gets checked against what the consultant would have written. That gives us a reconciliation baseline before we switch off manual logging."
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="qa-q" onclick="toggleQA(this)">
+      What's the plan if it breaks in production?
+      <span class="qa-badge soft">Easy</span>
+    </div>
+    <div class="qa-a">
+      "The manual process doesn't go away on day one. During the first month post-go-live, consultants spot-check a sample of automated logs. If the flow fails, an alert fires and the SR gets flagged for manual processing — so there's no gap in coverage. Full rollback is just disabling the flow."
+    </div>
+  </div>
+</div>
+
+<div id="dodont" class="panel">
+  <div class="do-dont">
+    <div class="do-card">
+      <h4>Do</h4>
+      <ul>
+        <li>Lead with the problem and the pain — not the technology</li>
+        <li>Say "30 to 77 hours a month" — the range shows you've been honest</li>
+        <li>Name Donovan directly when you make the ask</li>
+        <li>Walk the flow diagram left to right, narrate it — don't read every node</li>
+        <li>Say "MVP 1" — it signals discipline and makes the ask feel contained</li>
+        <li>Pause after your big number. Silence is fine.</li>
+        <li>Stop talking after your close. Don't add more.</li>
+        <li>If you don't know an answer, say "I'll follow up on that" — no bluffing</li>
+      </ul>
+    </div>
+    <div class="dont-card">
+      <h4>Don't</h4>
+      <ul>
+        <li>Don't open with "So today I'm going to talk about..."</li>
+        <li>Don't explain what Power Automate is unless asked</li>
+        <li>Don't read your slides word for word</li>
+        <li>Don't say "hopefully" or "I think it should work"</li>
+        <li>Don't apologise for anything upfront</li>
+        <li>Don't go over your time — cut the close if needed, not the ask</li>
+        <li>Don't skip the flow diagram — it's your proof of work</li>
+        <li>Don't pitch MVP 2 unless directly asked — stay in lane</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:14px 16px;border-left:3px solid #FFCC00">
+    <p style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px">If nerves hit mid-presentation</p>
+    <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.6">Slow down, not up. Nervous people speed up — slow is what confident sounds like. Take a breath before answering any question. You know this better than anyone in the room — you built it.</p>
+  </div>
+</div>
+
+<div id="practice" class="panel">
+  <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:14px">Type your answer to each question, then see the model answer. No one's judging — just get the reps in.</p>
+
+  <div class="practice-wrap">
+    <div class="practice-q">
+      <p id="pq-text">What problem does SR Logger solve?</p>
+      <span id="pq-sub">Beat 1 — opening your presentation</span>
+    </div>
+    <div class="practice-body">
+      <textarea id="pq-input" placeholder="Type your answer here..."></textarea>
+      <div class="btn-row">
+        <button class="primary" onclick="showModel()">Show model answer</button>
+        <button onclick="clearPractice()">Clear</button>
+      </div>
+      <div class="model-ans" id="model-ans"></div>
+      <div class="nav-row">
+        <button onclick="prevQ()">← Previous</button>
+        <span class="prog" id="prog-label">1 / 6</span>
+        <button onclick="nextQ()">Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const qs=[
+  {q:"What problem does SR Logger solve?",sub:"Beat 1 — opening your presentation",a:"Every SR that comes into the ICT COM Support mailbox is being manually logged — 15 minutes per SR, 6 to 15 SRs a day. That's up to three and a half hours of consultant time daily on copy-paste work. SR Logger eliminates that entirely by automating the extraction and logging end-to-end."},
+  {q:"Walk me through what the flow actually does.",sub:"Beat 2 — explaining the solution",a:"A Power Automate flow runs every 15 minutes. It scans the mailbox, filters out any RE: or FW: emails to avoid duplicates, grabs the new SRs, opens the BOM PDF attachment, uses AI Builder to extract the 14 required fields, checks whether that SR number already exists in SR_Master, and if not, writes a new row. If anything looks wrong — low confidence score, wrong format — it fires an alert."},
+  {q:"What's the business case? Why should we prioritise this?",sub:"Beat 3 — landing the ROI",a:"Conservative estimate is 30 consultant hours freed per month. Optimistic estimate is 77. Both are based on real numbers — 15 minutes per SR, 6 to 15 SRs per day, 22 working days. That time goes straight back to work that actually needs human judgment, like clearing the backlog."},
+  {q:"What exactly are you asking for today?",sub:"Beat 4 — your specific ask",a:"One thing: the DLP policy that blocks Power Automate from connecting to the shared mailbox needs to be allowlisted. That's it. Everything else — the tools, the licences, the infrastructure — we already have it. I need Donovan to support that connector approval so I can start the 6-week build."},
+  {q:"What if AI Builder gets the extraction wrong?",sub:"Q&A — the hardest likely question",a:"AI Builder gives a confidence score on every extraction. I'll set a threshold — anything below it triggers an alert to the consultant to check that SR manually. So worst case, we fall back to manual for that one record. Nothing gets written to SR_Master silently with bad data."},
+  {q:"How long to build and what's the cost?",sub:"Q&A — common follow-up",a:"Six weeks from DLP approval to go-live. Two weeks setup, two weeks flow build and AI Builder training on our actual BOMs, two weeks UAT running in parallel with the manual process. Cost is zero — Power Automate and AI Builder are already in our O365 licence. The only resource is my time."},
+];
+let curr=0;
+function renderQ(){
+  document.getElementById('pq-text').textContent=qs[curr].q;
+  document.getElementById('pq-sub').textContent=qs[curr].sub;
+  document.getElementById('prog-label').textContent=(curr+1)+' / '+qs.length;
+  document.getElementById('pq-input').value='';
+  const ma=document.getElementById('model-ans');
+  ma.textContent='';ma.classList.remove('show');
+}
+function showModel(){
+  const ma=document.getElementById('model-ans');
+  ma.textContent=qs[curr].a;
+  ma.classList.add('show');
+}
+function clearPractice(){
+  document.getElementById('pq-input').value='';
+  const ma=document.getElementById('model-ans');
+  ma.textContent='';ma.classList.remove('show');
+}
+function nextQ(){curr=(curr+1)%qs.length;renderQ();}
+function prevQ(){curr=(curr-1+qs.length)%qs.length;renderQ();}
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+function toggleBeat(el){
+  const body=el.nextElementSibling;
+  body.classList.toggle('open');
+}
+function toggleQA(el){
+  const ans=el.nextElementSibling;
+  ans.classList.toggle('open');
+}
+renderQ();
+</script>
+</body></html>
